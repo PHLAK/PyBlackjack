@@ -38,9 +38,9 @@ def deal(players, deck):
 
 
 def hit(hand):
-    """Hand hit action"""
+    """Draw a card from the deck and add it to the player's hand"""
 
-    print('Hit action')
+    hand.add_card(deck.pop(0))
 
 
 def stand(hand):
@@ -64,34 +64,43 @@ def split(hand):
 def play_hand(player, hand):
     """Run the main gameplay loop for palyers hand"""
 
-    stand = False
+    # Is hand a blackjack?
+    if hand.score() == 21:
+        blackjack = True
+    else:
+        blackjack = False
 
-    while stand is False:
+    while True:
 
         # Show player their hand
-        print(u'{player}: {hand}'.format(player=player.name, hand=hand.str()))
+        print(u'{player}: {hand}  [{score}]'.format(
+            player=player.name, hand=hand.str(), score=hand.score()
+        ))
+
+        if blackjack:
+            print('BLACKJACK!')
+            break
+
+        if hand.score() > 21:
+            print('BUST!')
+            break
 
         # Prompt user for action
         action = raw_input('[H]it | [S]tand | [D]ouble | Split [/]: ')
 
         if re.match(r'[Hh]', action):
-
             hit(hand)
 
         elif re.match(r'[Ss]', action):
-
-            stand = True
+            break
 
         elif re.match(r'[Dd]', action):
-
             double(hand)
 
         elif re.match(r'[/]', action):
-
-            double(hand)
+            split(hand)
 
         else:
-
             print('Invalid option: {}'.format(action))
 
 
