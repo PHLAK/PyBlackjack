@@ -21,8 +21,15 @@ def deal(players, deck):
     """Deal hands to 'players' from 'deck'"""
 
     for i in range(0, 2):
+
+        index = 0
+
         for player in players:
-            player.hands[0].add_card(deck.pop(0))
+
+            if len(player.hands) == 0:
+                index = player.add_hand()
+
+            player.hands[index].add_card(deck.pop(0))
 
 
 # def blackjack(player):

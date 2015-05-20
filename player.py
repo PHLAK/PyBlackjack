@@ -14,14 +14,16 @@ class Player:
         ]
 
 
-    def hit(self):
-        """Player hit action"""
+    def add_hand(self):
+        """Add a Hand object to the players hands"""
 
-        print('Hit action')
+        # Add a hand object
+        self.hands.append(Hand())
 
+        # Get the index of the newly created hand object
+        hand_index = self.hands.index(self.hands[-1])
 
-    def double(self):
-        """Player double action"""
+        return hand_index
 
         print('Double action')
 
