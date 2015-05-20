@@ -9,9 +9,7 @@ class Player:
 
         self.name = str(name)
 
-        self.hands = [
-            Hand()
-        ]
+        self.hands = list()
 
 
     def add_hand(self):
@@ -24,11 +22,3 @@ class Player:
         hand_index = self.hands.index(self.hands[-1])
 
         return hand_index
-
-        print('Double action')
-
-
-    def split(self):
-        """Player split action"""
-
-        print('Spit action')
