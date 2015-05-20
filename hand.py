@@ -49,26 +49,38 @@ class Hand:
     def score(self):
         """Calculate the score of the hand"""
 
+        # Return 0 if no cards in hand
         if len(self.cards) == 0:
             return 0
 
-        score = int()
+        cards = list()
 
-        for card in self.cards:
+        # Move Aces to the end of the list
+        for index, card in enumerate(self.cards):
+            if card['rank'] is 'A':
+                cards.append(self.cards[index])
+            else:
+                cards.insert(0, self.cards[index])
+
+        hand_score = int()
+
+        for card in cards:
 
             if card['rank'] is 'A':
 
-                if score + 11 > 21:
-                    score += 1
+                # TODO: Improve this
+
+                if hand_score + 11 > 21:
+                    hand_score += 1
                 else:
-                    score += 11
+                    hand_score += 11
 
             elif re.match(r'[JQK]', card['rank']):
 
-                score += 10
+                hand_score += 10
 
             else:
 
-                score += int(card['rank'])
+                hand_score += int(card['rank'])
 
-        return score
+        return hand_score
