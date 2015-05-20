@@ -10,6 +10,13 @@ import re
 import sys
 
 
+# Initialize the deck
+deck = Deck().create()
+
+# Shuffle the deck
+shuffle(deck)
+
+
 def deal(players, deck):
     """Deal hands to 'players' from 'deck'"""
 
@@ -88,12 +95,6 @@ def dealer_play(player, hand):
 
 def main(num_players):
     """Main execution function"""
-
-    # Initialize the deck
-    deck = Deck().create()
-
-    # Shuffle the deck
-    shuffle(deck)
 
     # Initialize players list
     players = list()
