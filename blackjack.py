@@ -3,43 +3,11 @@
 
 from __future__ import print_function
 from deck import Deck
+from player import Player
 from random import shuffle
 
 import re
 import sys
-
-
-def initialize_players(number_of_players=1):
-    """Initialize player objects"""
-
-    players = list()
-
-    # Add players
-    for i in range(1, number_of_players + 1):
-
-        players.append({
-            'name': 'Player {}'.format(i),
-            'hand': list()
-        })
-
-    # Add dealer to players
-    players.append({
-        'name': 'Dealer',
-        'hand': list()
-    })
-
-    return players
-
-
-def initialize_hands():
-    """Initialize hands"""
-
-    hands = {
-        'cards': list(),
-        'status': 'hard'
-    }
-
-    return hands
 
 
 def deal(players, deck):
@@ -47,18 +15,7 @@ def deal(players, deck):
 
     for i in range(0, 2):
         for player in players:
-            player['hand'].append(deck.pop(0))
-
-
-def get_player_hand(player):
-    """Returns a string of the cards in a players hand"""
-
-    hand = str()
-
-    for card in player['hand']:
-        hand += card['face'] + '  '
-
-    return hand
+            player.hands[0].add_card(deck.pop(0))
 
 
 # def blackjack(player):
@@ -66,32 +23,67 @@ def get_player_hand(player):
 #     # Check if player has a blackjack
 
 
-# def hit(player):
-#     """Player hit action"""
-#     # Hit actions...
+def hit(hand):
+    """Hand hit action"""
+
+    print('Hit action')
 
 
-# def stand(player):
-#     """Player stand action"""
-#     # Stand
+def stand(hand):
+    """Hand stand action"""
+
+    print('Stand action')
 
 
-# def double(player):
-#     """Player double action"""
-#     # Double actions
+def double(hand):
+    """Hand double action"""
+
+    print('Double action')
 
 
-# def split(player):
-#     """Player split action"""
-#     # Split actions
+def split(hand):
+    """Hand split action"""
+
+    print('Spit action')
 
 
-def player_loop(player):
-    """Run the main gameplay loop for 'player'"""
+def play_hand(player, hand):
+    """Run the main gameplay loop for palyers hand"""
 
-    print(u'{}: {}'.format(player['name'], get_player_hand(player)))
+    stand = False
 
-    print('[H]it | [S]tand | [D]ouble | Split [/]: ')
+    while stand is False:
+
+        # Show player their hand
+        print(u'{player}: {hand}'.format(player=player.name, hand=hand.str()))
+
+        # Prompt user for action
+        action = raw_input('[H]it | [S]tand | [D]ouble | Split [/]: ')
+
+        if re.match(r'[Hh]', action):
+
+            hit(hand)
+
+        elif re.match(r'[Ss]', action):
+
+            stand = True
+
+        elif re.match(r'[Dd]', action):
+
+            double(hand)
+
+        elif re.match(r'[/]', action):
+
+            double(hand)
+
+        else:
+
+            print('Invalid option: {}'.format(action))
+
+
+def dealer_play(player, hand):
+
+    print('Dealer play...')
 
 
 def main(num_players):
@@ -103,16 +95,31 @@ def main(num_players):
     # Shuffle the deck
     shuffle(deck)
 
-    # Initialize the players
-    players = initialize_players(num_players)
+    # Initialize players list
+    players = list()
+
+    # Add players to players list
+    for i in range(1, num_players + 1):
+
+        players.append(Player('Player{}'.format(i)))
+
+    # Add the dealer to the players list
+    players.append(Player('Dealer'))
 
     # Deal the cards
     deal(players, deck)
 
+    # Show dealers card
+    print(u'Dealer showing: {}'.format(players[-1].hands[0].cards[0]['face']))
+
     # Run player loop
     for player in players:
-        player_loop(player)
+        for hand in player.hands:
 
+            if player.name is not 'Dealer':
+                play_hand(player, hand)
+
+    dealer_play(player, hand)
 
 if __name__ == '__main__':
 
@@ -124,8 +131,8 @@ if __name__ == '__main__':
 
         num_players = int(sys.argv[1])
 
-        if num_players > 5:
-            print('ERROR: Number of players cannot exceed 5', file=sys.stderr)
+        if num_players > 5 or num_players < 1:
+            print('ERROR: Number of players must be 1-5', file=sys.stderr)
             exit(1)
 
     main(num_players)

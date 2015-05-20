@@ -12,7 +12,7 @@ class Deck:
             { 'id': 'H', 'name': 'Hearts', 'symbol': u'\u2665' }
         ]
 
-        self.values = [
+        self.ranks = [
             { 'id': 'A', 'name': 'Ace' },
             { 'id': '2', 'name': 'Two' },
             { 'id': '3', 'name': 'Three' },
@@ -34,11 +34,16 @@ class Deck:
         deck = list()
 
         for suit in self.suits:
-            for value in self.values:
+            for rank in self.ranks:
                 deck.append({
-                    'id': '{}{}'.format(value['id'], suit['id']),
-                    'face': u'{}{}'.format(value['id'], suit['symbol']),
-                    'name': '{} of {}'.format(value['name'], suit['name'])
+                    'id': '{}{}'.format(rank['id'], suit['id']),
+                    'face': u'{}{}'.format(rank['id'], suit['symbol']),
+                    'name': '{} of {}'.format(rank['name'], suit['name']),
+                    'suit': suit['id'],
+                    'suit_name': suit['name'],
+                    'suit_symbol': suit['symbol'],
+                    'rank': rank['id'],
+                    'rank_name': rank['name']
                 })
 
         return deck
