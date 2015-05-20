@@ -43,7 +43,7 @@ class Hand:
         for card in self.cards:
             hand_str += card['face'] + '  '
 
-        return hand_str
+        return hand_str.rstrip()
 
 
     def score(self):
