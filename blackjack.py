@@ -32,11 +32,6 @@ def deal(players, deck):
             player.hands[index].add_card(deck.draw())
 
 
-# def blackjack(player):
-#   """"Checks if a players hand is a blackjack"""
-#     # Check if player has a blackjack
-
-
 def show_hand(player, hand):
     """Show player hand and score"""
 

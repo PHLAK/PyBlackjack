@@ -72,6 +72,7 @@ class Hand:
 
         # Move Aces to the end of the list
         for index, card in enumerate(self.cards):
+
             if card['rank'] is 'A':
                 cards.append(self.cards[index])
             else:
@@ -82,8 +83,6 @@ class Hand:
         for card in cards:
 
             if card['rank'] is 'A':
-
-                # TODO: Improve this
 
                 if hand_score + 11 > 21:
                     hand_score += 1

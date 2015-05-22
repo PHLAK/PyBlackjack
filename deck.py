@@ -33,7 +33,6 @@ class Deck:
             { 'id': 'K', 'name': 'King' }
         ]
 
-
         for suit in self.suits:
             for rank in self.ranks:
                 self.deck.append({
