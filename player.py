@@ -7,9 +7,15 @@ class Player:
 
     def __init__(self, name):
 
-        self.name = str(name)
+        self.player_name = str(name)
 
         self.hands = list()
+
+
+    def name(self):
+        """Returns the player's name"""
+
+        return self.player_name
 
 
     def add_hand(self):

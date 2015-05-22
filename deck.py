@@ -1,9 +1,14 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+from random import shuffle
+
+
 class Deck:
 
     def __init__(self):
+
+        self.deck = list()
 
         self.suits = [
             { 'id': 'S', 'name': 'Spades', 'symbol': u'\u2660' },
@@ -29,13 +34,9 @@ class Deck:
         ]
 
 
-    def create(self):
-
-        deck = list()
-
         for suit in self.suits:
             for rank in self.ranks:
-                deck.append({
+                self.deck.append({
                     'id': '{}{}'.format(rank['id'], suit['id']),
                     'face': u'{}{}'.format(rank['id'], suit['symbol']),
                     'name': '{} of {}'.format(rank['name'], suit['name']),
@@ -46,4 +47,17 @@ class Deck:
                     'rank_name': rank['name']
                 })
 
-        return deck
+
+    def shuffle(self, itterations=3):
+        """Randomize the order of cards in the deck"""
+
+        for i in range(0, itterations):
+            shuffle(self.deck)
+
+        return self.deck
+
+
+    def draw(self, position=0):
+        """Draw the card at 'position' from the deck"""
+
+        return self.deck.pop(position)

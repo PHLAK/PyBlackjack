@@ -11,10 +11,10 @@ import sys
 
 
 # Initialize the deck
-deck = Deck().create()
+deck = Deck()
 
 # Shuffle the deck
-shuffle(deck)
+deck.shuffle()
 
 
 def deal(players, deck):
@@ -29,7 +29,7 @@ def deal(players, deck):
             if len(player.hands) == 0:
                 index = player.add_hand()
 
-            player.hands[index].add_card(deck.pop(0))
+            player.hands[index].add_card(deck.draw())
 
 
 # def blackjack(player):
@@ -37,22 +37,20 @@ def deal(players, deck):
 #     # Check if player has a blackjack
 
 
+def show_hand(player, hand):
+    """Show player hand and score"""
+
+    hand_str = u'{player}: {hand}  [{score}]'.format(
+        player=player.name(), hand=hand.str(), score=hand.score()
+    )
+
+    return hand_str
+
+
 def hit(hand):
     """Draw a card from the deck and add it to the player's hand"""
 
-    hand.add_card(deck.pop(0))
-
-
-def stand(hand):
-    """Hand stand action"""
-
-    print('Stand action')
-
-
-def double(hand):
-    """Hand double action"""
-
-    print('Double action')
+    hand.add_card(deck.draw())
 
 
 def split(hand):
@@ -73,29 +71,27 @@ def play_hand(player, hand):
     while True:
 
         # Show player their hand
-        print(u'{player}: {hand}  [{score}]'.format(
-            player=player.name, hand=hand.str(), score=hand.score()
-        ))
+        print(show_hand(player, hand))
 
         if blackjack:
-            print('BLACKJACK!')
+            print('--> {player} has blackjack!'.format(player=player.name()))
             break
 
         if hand.score() > 21:
-            print('BUST!')
+            print('--> {player} busts!'.format(player=player.name()))
             break
 
         # Prompt user for action
-        action = raw_input('[H]it | [S]tand | [D]ouble | Split [/]: ')
+        action = raw_input('[H]it | [S]tand | Split [/]: ')
 
         if re.match(r'[Hh]', action):
+
+            print('--> {player} hits...'.format(player=player.name()))
             hit(hand)
 
         elif re.match(r'[Ss]', action):
+            print('--> {player} stands.'.format(player=player.name()))
             break
-
-        elif re.match(r'[Dd]', action):
-            double(hand)
 
         elif re.match(r'[/]', action):
             split(hand)
@@ -106,7 +102,25 @@ def play_hand(player, hand):
 
 def dealer_play(player, hand):
 
-    print('Dealer play...')
+    while True:
+
+        # Show the dealer's hand
+        print(show_hand(player, hand))
+
+        if hand.score() > 21:
+
+            print('--> {player} busts!'.format(player=player.name()))
+            break
+
+        if hand.score() < 17 or hand.score() == 17 and hand.is_soft() is True:
+
+            print('--> {player} hits...'.format(player=player.name()))
+            hit(hand)
+
+        else:
+
+            print('--> {player} stands.'.format(player=player.name()))
+            break
 
 
 def main(num_players):
@@ -117,11 +131,12 @@ def main(num_players):
 
     # Add players to players list
     for i in range(1, num_players + 1):
-
         players.append(Player('Player{}'.format(i)))
 
     # Add the dealer to the players list
     players.append(Player('Dealer'))
+
+    print(players)
 
     # Deal the cards
     deal(players, deck)
@@ -133,10 +148,11 @@ def main(num_players):
     for player in players:
         for hand in player.hands:
 
-            if player.name is not 'Dealer':
+            if player.name() is not 'Dealer':
                 play_hand(player, hand)
 
     dealer_play(player, hand)
+
 
 if __name__ == '__main__':
 

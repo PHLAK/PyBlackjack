@@ -14,11 +14,14 @@ class Hand:
             for arg in list(args):
                 self.cards.append(arg)
 
-        self.hard = True
+        self.soft = False
 
 
     def add_card(self, card):
         """Add a card to the hand"""
+
+        if card['rank'] == 'A':
+            self.set_soft(True)
 
         # Append card to list
         self.cards.append(card)
@@ -44,6 +47,18 @@ class Hand:
             hand_str += card['face'] + '  '
 
         return hand_str.rstrip()
+
+
+    def is_soft(self):
+        """Returns True if hand is soft, otherwise returns False"""
+
+        return self.soft
+
+
+    def set_soft(self, boolean):
+        """Set hand soft boolean"""
+
+        self.soft = True
 
 
     def score(self):
