@@ -10,13 +10,6 @@ import re
 import sys
 
 
-# Initialize the deck
-deck = Deck()
-
-# Shuffle the deck
-deck.shuffle()
-
-
 def deal(players, deck):
     """Deal hands to 'players' from 'deck'"""
 
@@ -42,20 +35,20 @@ def show_hand(player, hand):
     return hand_str
 
 
-def hit(hand):
-    """Draw a card from the deck and add it to the player's hand"""
+def hit(hand, deck):
+    """Draw a card from the 'deck' and add it to the player's 'hand'"""
 
     hand.add_card(deck.draw())
 
 
 def split(hand):
-    """Hand split action"""
+    """Split 'hand' into two new hands"""
 
     print('Spit action')
 
 
 def is_blackjack(hand):
-    """Returns True if hand is blackjack, otherwise False"""
+    """Returns True if hand is a blackjack, otherwise False"""
 
     if hand.size() == 2 and hand.score() == 21:
         return True
@@ -63,7 +56,7 @@ def is_blackjack(hand):
     return False
 
 
-def play_hand(player, hand):
+def play_hand(player, hand, deck):
     """Run the main gameplay loop for palyers hand"""
 
     # Show player their hand
@@ -84,7 +77,7 @@ def play_hand(player, hand):
 
         if re.match(r'[Hh]', action):
 
-            hit(hand)
+            hit(hand, deck)
             print(u'  --> {player} hits: {hand}  [{score}]'.format(
                 player=player.name(),
                 hand=hand.str(),
@@ -108,7 +101,7 @@ def play_hand(player, hand):
             print('  --> Invalid option')
 
 
-def dealer_play(player, hand):
+def dealer_play(player, hand, deck):
     """Run the dealers gameplay loop"""
 
     # Show the dealer's hand
@@ -127,7 +120,7 @@ def dealer_play(player, hand):
 
         elif hand.score() < 17 or hand.score() == 17 and hand.is_soft() is True:
 
-            hit(hand)
+            hit(hand, deck)
             print(u'  --> {player} hits: {hand}  [{score}]'.format(
                 player=player.name(),
                 hand=hand.str(),
@@ -143,8 +136,11 @@ def dealer_play(player, hand):
             break
 
 
-def main(num_players):
+def main(num_players, num_decks):
     """Main execution function"""
+
+    # Initialize and shuffle the deck
+    deck = Deck(num_decks).shuffle()
 
     # Initialize players list
     players = list()
@@ -167,10 +163,10 @@ def main(num_players):
         for hand in player.hands:
 
             if player.name() is not 'Dealer':
-                play_hand(player, hand)
+                play_hand(player, hand, deck)
                 continue
 
-            dealer_play(player, hand)
+            dealer_play(player, hand, deck)
 
     # Calculate and output results
     # results()
@@ -202,4 +198,4 @@ if __name__ == '__main__':
         num_players = 1
 
     # Run main function
-    main(num_players)
+    main(num_players, num_decks)
