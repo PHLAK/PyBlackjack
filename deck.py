@@ -6,7 +6,11 @@ from random import shuffle
 
 class Deck:
 
-    def __init__(self):
+    def __init__(self, decks=1):
+        """Initialize the deck of cards. Defaults to single deck."""
+
+        if decks < 1:
+            raise ValueError('Number of decks must be greater than or equal to 1')
 
         self.deck = list()
 
@@ -33,18 +37,19 @@ class Deck:
             { 'id': 'K', 'name': 'King' }
         ]
 
-        for suit in self.suits:
-            for rank in self.ranks:
-                self.deck.append({
-                    'id': '{}{}'.format(rank['id'], suit['id']),
-                    'face': u'{}{}'.format(rank['id'], suit['symbol']),
-                    'name': '{} of {}'.format(rank['name'], suit['name']),
-                    'suit': suit['id'],
-                    'suit_name': suit['name'],
-                    'suit_symbol': suit['symbol'],
-                    'rank': rank['id'],
-                    'rank_name': rank['name']
-                })
+        for i in range(0, decks):
+            for suit in self.suits:
+                for rank in self.ranks:
+                    self.deck.append({
+                        'id': '{}{}'.format(rank['id'], suit['id']),
+                        'face': u'{}{}'.format(rank['id'], suit['symbol']),
+                        'name': '{} of {}'.format(rank['name'], suit['name']),
+                        'suit': suit['id'],
+                        'suit_name': suit['name'],
+                        'suit_symbol': suit['symbol'],
+                        'rank': rank['id'],
+                        'rank_name': rank['name']
+                    })
 
 
     def shuffle(self, itterations=3):
