@@ -6,6 +6,7 @@ from deck import Deck
 from player import Player
 from random import shuffle
 
+import argparse
 import re
 import sys
 
@@ -151,16 +152,27 @@ def main(num_players):
 
 if __name__ == '__main__':
 
-    if len(sys.argv) < 2:
+    # Initialize argument parser
+    parser = argparse.ArgumentParser(description='Play Blackjack for teh lulz')
 
+    # Add arguments
+    parser.add_argument('-d', '--decks', help='Number of decks (minimum 1)')
+    parser.add_argument('-p', '--players', help='Number of non-dealer players (must be 1-5)')
+
+    # Parse passed arguments
+    args = parser.parse_args()
+
+    if args.decks:
+        num_decks = int(arg.decks)
+    else:
+        num_decks = 1
+
+    if args.players:
+        num_players = int(args.players)
+        if num_players > 5 or num_players < 1:
+            raise ValueError('Number of players must be 1-5')
+    else:
         num_players = 1
 
-    else:
-
-        num_players = int(sys.argv[1])
-
-        if num_players > 5 or num_players < 1:
-            print('ERROR: Number of players must be 1-5', file=sys.stderr)
-            exit(1)
-
+    # Run main function
     main(num_players)
