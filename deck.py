@@ -65,3 +65,9 @@ class Deck:
         """Draw the card at 'position' from the deck"""
 
         return self.deck.pop(position)
+
+
+    def fan(self):
+        """Return the ordered list of cards in the deck"""
+
+        return self.deck
