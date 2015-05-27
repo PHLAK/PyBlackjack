@@ -20,8 +20,12 @@ class Hand:
     def add_card(self, card):
         """Add a card to the hand"""
 
+        # Set hand soft status
         if card['rank'] == 'A':
-            self.set_soft(True)
+            if (self.score() + 11) <= 21:
+                self.set_soft(True)
+            else:
+                self.set_soft(False)
 
         # Append card to list
         self.cards.append(card)
