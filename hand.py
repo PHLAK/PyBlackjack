@@ -42,6 +42,12 @@ class Hand:
         return self.cards
 
 
+    def size(self):
+        """Returns the number of cards in the hand"""
+
+        return len(self.cards)
+
+
     def str(self):
         """Returns hand as a string"""
 
