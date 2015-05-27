@@ -110,6 +110,7 @@ def play_hand(player, hand):
 
 
 def dealer_play(player, hand):
+    """Run the dealers gameplay loop"""
 
     # Show the dealer's hand
     print(show_hand(player, hand))
