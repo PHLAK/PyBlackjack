@@ -4,7 +4,6 @@
 from __future__ import print_function
 from deck import Deck
 from player import Player
-from random import shuffle
 
 import argparse
 import re
@@ -169,8 +168,12 @@ def main(num_players):
 
             if player.name() is not 'Dealer':
                 play_hand(player, hand)
+                continue
 
-    dealer_play(player, hand)
+            dealer_play(player, hand)
+
+    # Calculate and output results
+    # results()
 
 
 if __name__ == '__main__':
@@ -193,7 +196,8 @@ if __name__ == '__main__':
     if args.players:
         num_players = int(args.players)
         if num_players > 5 or num_players < 1:
-            raise ValueError('Number of players must be 1-5')
+            print('ERROR: Number of players must be 1-5', file=sys.stderr)
+            sys.exit(1)
     else:
         num_players = 1
 
