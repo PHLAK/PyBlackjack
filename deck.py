@@ -58,7 +58,7 @@ class Deck:
         for i in range(0, itterations):
             shuffle(self.deck)
 
-        return self.deck
+        return self
 
 
     def draw(self, position=0):
