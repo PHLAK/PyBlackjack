@@ -33,13 +33,10 @@ class Hand:
         return self.cards
 
 
-    def remove_card(self, card):
-        """Remove a card from the hand"""
+    def remove_card(self, position):
+        """Remove a card from the hand at 'position' and return it"""
 
-        # Remove card from list
-        self.cards.remove(card)
-
-        return self.cards
+        return self.cards.pop(position)
 
 
     def size(self):
