@@ -14,15 +14,9 @@ def deal(players, deck):
     """Deal hands to 'players' from 'deck'"""
 
     for i in range(0, 2):
-
-        index = 0
-
         for player in players:
-
-            if len(player.hands) == 0:
-                index = player.add_hand()
-
-            player.hands[index].add_card(deck.draw())
+            for hand in player.hands():
+                hand.add_card(deck.draw_one())
 
 
 def show_hand(player, hand):
@@ -38,19 +32,22 @@ def show_hand(player, hand):
 def hit(hand, deck):
     """Draw a card from the 'deck' and add it to the player's 'hand'"""
 
-    hand.add_card(deck.draw())
-
-
-def split(hand):
-    """Split 'hand' into two new hands"""
-
-    print('Spit action')
+    hand.add_card(deck.draw_one())
 
 
 def is_blackjack(hand):
     """Returns True if hand is a blackjack, otherwise False"""
 
     if hand.size() == 2 and hand.score() == 21:
+        return True
+
+    return False
+
+
+def split_allowed(hand):
+    """Returns True if the hand can be split, otherwise False"""
+
+    if hand.size() == 2 and hand.peek(0)['rank'] == hand.peek(1)['rank']:
         return True
 
     return False
@@ -72,8 +69,13 @@ def play_hand(player, hand, deck):
             print('  --> {player} busts!'.format(player=player.name()))
             break
 
+        prompt = u'  --> [H]it | [S]tand: '
+
+        if split_allowed(hand):
+            prompt = u'  --> [H]it | [S]tand | Split [/]: '
+
         # Prompt user for action
-        action = raw_input(u'  --> [H]it | [S]tand | Split [/]: ')
+        action = raw_input(prompt)
 
         if re.match(r'[Hh]', action):
 
@@ -93,9 +95,24 @@ def play_hand(player, hand, deck):
 
             break
 
-        elif re.match(r'[/]', action):
+        elif re.match(r'[/]', action) and split_allowed(hand):
 
-            split(hand)
+            print('  --> {player} splits hand'.format(
+                player=player.name()
+            ))
+
+            # Create second player hand
+            new_hand = player.add_hand()
+
+            # Move one card into the new hand
+            new_hand.add_card(hand.remove_card(-1))
+
+            # Deal new cards to split hands
+            for split_hand in player.hands():
+                split_hand.add_card(deck.draw_one())
+
+            # Show player their hand
+            print(show_hand(player, hand))
 
         else:
             print('  --> Invalid option')
@@ -156,17 +173,17 @@ def main(num_players, num_decks):
     deal(players, deck)
 
     # Show dealers card
-    print(u'Dealer showing: {}'.format(players[-1].hands[0].cards[0]['face']))
+    print(u'Dealer showing: {}'.format(players[-1].hands()[0].peek(0)['face']))
 
     # Run player loop
     for player in players:
-        for hand in player.hands:
+        for hand in player.hands():
 
-            if player.name() is not 'Dealer':
+            if player.name() is 'Dealer':
+                dealer_play(player, hand, deck)
+            else:
                 play_hand(player, hand, deck)
-                continue
 
-            dealer_play(player, hand, deck)
 
     # Calculate and output results
     # results()
