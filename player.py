@@ -10,7 +10,9 @@ class Player:
 
         self.player_name = str(name)
 
-        self.hands = list()
+        self.player_hands = list()
+
+        self.add_hand()
 
 
     def name(self):
@@ -20,12 +22,14 @@ class Player:
 
 
     def add_hand(self):
-        """Add a Hand object to the players hands"""
+        """Add an empty Hand object to the players list of hands"""
 
-        # Add a hand object
-        self.hands.append(Hand())
+        hand = Hand()
+        self.player_hands.append(hand)
 
-        # Get the index of the newly created hand object
-        hand_index = self.hands.index(self.hands[-1])
+        return hand
 
-        return hand_index
+    def hands(self):
+        """Returns an ordered list of player hands"""
+
+        return self.player_hands
