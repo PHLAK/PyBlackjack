@@ -61,8 +61,8 @@ class Deck:
         return self
 
 
-    def draw(self, position=0):
-        """Draw the card at 'position' from the deck"""
+    def draw_one(self, position=0):
+        """Remove and return the card at 'position' from the deck"""
 
         return self.deck.pop(position)
 
