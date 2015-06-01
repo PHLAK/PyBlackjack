@@ -79,6 +79,6 @@ class Deck:
 
 
     def fan(self):
-        """Return the ordered list of cards in the deck"""
+        """Return an ordered list of cards in the deck"""
 
         return self.deck
