@@ -67,6 +67,17 @@ class Deck:
         return self.deck.pop(position)
 
 
+    def draw_many(self, quantity=1, position=0):
+        """Remove and Return a list of cards starting at 'position' from the deck"""
+
+        cards = list()
+
+        for i in range(0, quantity):
+            cards.append(self.deck.pop(position))
+
+        return cards
+
+
     def fan(self):
         """Return the ordered list of cards in the deck"""
 
