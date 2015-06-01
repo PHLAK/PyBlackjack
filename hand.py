@@ -45,6 +45,18 @@ class Hand:
         return len(self.cards)
 
 
+    def show(self):
+        """Return an ordered list of cards in the hand"""
+
+        return self.cards
+
+
+    def peek(self, position):
+        """Returns the card at 'position'"""
+
+        return self.cards[position]
+
+
     def str(self):
         """Returns hand as a string"""
 
