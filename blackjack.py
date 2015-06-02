@@ -202,7 +202,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.decks:
-        num_decks = int(arg.decks)
+        num_decks = int(args.decks)
     else:
         num_decks = 1
 
