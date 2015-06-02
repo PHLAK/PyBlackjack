@@ -29,12 +29,6 @@ def show_hand(player, hand):
     return hand_str
 
 
-def hit(hand, deck):
-    """Draw a card from the 'deck' and add it to the player's 'hand'"""
-
-    hand.add_card(deck.draw_one())
-
-
 def is_blackjack(hand):
     """Returns True if hand is a blackjack, otherwise False"""
 
@@ -79,7 +73,7 @@ def play_hand(player, hand, deck):
 
         if re.match(r'[Hh]', action):
 
-            hit(hand, deck)
+            hand.add_card(deck.draw_one())
             print(u'  --> {player} hits: {hand}  [{score}]'.format(
                 player=player.name(),
                 hand=hand.str(),
@@ -137,7 +131,7 @@ def dealer_play(player, hand, deck):
 
         elif hand.score() < 17 or hand.score() == 17 and hand.is_soft() is True:
 
-            hit(hand, deck)
+            hand.add_card(deck.draw_one())
             print(u'  --> {player} hits: {hand}  [{score}]'.format(
                 player=player.name(),
                 hand=hand.str(),
