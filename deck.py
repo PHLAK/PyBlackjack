@@ -61,6 +61,13 @@ class Deck:
         return self
 
 
+    def draw(self):
+        """Convienience function for drawing the top card from the deck
+        Functionally equivilent to calling Deck.draw_one(0)"""
+
+        return self.draw_one(0)
+
+
     def draw_one(self, position=0):
         """Remove and return the card at 'position' from the deck"""
 
