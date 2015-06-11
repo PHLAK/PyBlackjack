@@ -3,6 +3,16 @@ PyBlackjack
 
  Play some Blackjack (written in Python).
 
+    usage: blackjack.py [-h] [-d DECKS] [-p PLAYERS]
+
+    Play Blackjack for teh lulz
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -d DECKS, --decks DECKS
+                            Number of decks (minimum 1)
+      -p PLAYERS, --players PLAYERS
+                            Number of non-dealer players (must be 1-5)
 
 -----
 
