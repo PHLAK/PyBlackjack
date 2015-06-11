@@ -147,6 +147,74 @@ def dealer_play(player, hand, deck):
             break
 
 
+def results(players):
+
+    print('========== RESULTS ==========')
+    print()
+
+    # Geat dealer objects
+    dealer = players[-1]
+    dealer_hand = dealer.hands()[0]
+
+    for player in players:
+        if player.name() is not 'Dealer':
+            for hand in player.hands():
+
+                if hand.score() > 21:
+
+                    print('{player} looses by busting with a score of {score}.'.format(
+                        player=player.name(),
+                        score=hand.score()
+                    ))
+
+                elif hand.score() <= 21 and dealer_hand.score() > 21:
+
+                    print('{player} wins due to Dealer busting!'.format(
+                        player=player.name()
+                    ))
+
+                elif is_blackjack(hand) and not is_blackjack(dealer_hand):
+
+                    print('{player} wins with blackjack!'.format(
+                        player=player.name()
+                    ))
+
+                elif is_blackjack(dealer_hand) and not is_blackjack(hand):
+
+                    print("{player} looses to Dealer's blackjack.".format(
+                        player=player.name()
+                    ))
+
+                elif is_blackjack(hand) and is_blackjack(dealer_hand):
+
+                    print('{player} and Dealer push with balckjacks.'.format(
+                        player=player.name()
+                    ))
+
+                elif hand.score() > dealer_hand.score():
+
+                    print('{player} wins by beating Dealers score ({player_score} > {dealer_score})!'.format(
+                        player=player.name(),
+                        player_score=hand.score(),
+                        dealer_score=dealer_hand.score()
+                    ))
+
+                elif hand.score() < dealer_hand.score():
+
+                    print(u'{player} looses to Dealer ({player_score} < {dealer_score}).'.format(
+                        player=player.name(),
+                        player_score=hand.score(),
+                        dealer_score=dealer_hand.score()
+                    ))
+
+                elif hand.score() == dealer_hand.score():
+
+                    print('{player} and Dealer push with {score}.'.format(
+                        player=player.name(),
+                        score=hand.score()
+                    ))
+
+
 def main(num_players, num_decks):
     """Main execution function"""
 
@@ -180,7 +248,7 @@ def main(num_players, num_decks):
 
 
     # Calculate and output results
-    # results()
+    results(players)
 
 
 if __name__ == '__main__':
@@ -205,6 +273,7 @@ if __name__ == '__main__':
         if num_players > 5 or num_players < 1:
             print('ERROR: Number of players must be 1-5', file=sys.stderr)
             sys.exit(1)
+
     else:
         num_players = 1
 
