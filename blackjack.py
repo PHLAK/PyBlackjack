@@ -151,13 +151,12 @@ def dealer_play(player, hand, deck):
     print()
 
 
-def results(players):
+def results(players, dealer):
 
     print('========== RESULTS ==========')
     print()
 
-    # Geat dealer objects
-    dealer = players[-1]
+    # Geat dealers hand object
     dealer_hand = dealer.hands()[0]
 
     for player in players:
@@ -242,20 +241,22 @@ def main(num_players, num_decks):
     print(u'Dealer showing: {}'.format(players[-1].hands()[0].peek(0)['face']))
     print()
 
+    # Pop dealer from player list
+    dealer = players.pop(-1)
+
     # If dealer has blackjack, go straighto to scoring
-    if not is_blackjack(players[-1].hands()[0]):
+    if not is_blackjack(dealer.hands()[0]):
 
         # Run player loop
         for player in players:
             for hand in player.hands():
+                play_hand(player, hand, deck)
 
-                if player.name() is 'Dealer':
-                    dealer_play(player, hand, deck)
-                else:
-                    play_hand(player, hand, deck)
+    # Play dealers hand
+    dealer_play(dealer, dealer.hands()[0], deck)
 
     # Calculate and output results
-    results(players)
+    results(players, dealer)
 
 
 if __name__ == '__main__':
