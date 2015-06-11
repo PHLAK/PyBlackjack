@@ -63,10 +63,10 @@ def play_hand(player, hand, deck):
             print('  --> {player} busts!'.format(player=player.name()))
             break
 
-        prompt = u'  --> [H]it | [S]tand: '
+        prompt = u'  [H]it | [S]tand: '
 
         if split_allowed(hand):
-            prompt = u'  --> [H]it | [S]tand | Split [/]: '
+            prompt = u'  [H]it | [S]tand | Split [/]: '
 
         # Prompt user for action
         action = raw_input(prompt)
@@ -111,6 +111,8 @@ def play_hand(player, hand, deck):
         else:
             print('  --> Invalid option')
 
+    print() # Print blank line
+
 
 def dealer_play(player, hand, deck):
     """Run the dealers gameplay loop"""
@@ -145,6 +147,8 @@ def dealer_play(player, hand, deck):
                 score=hand.score()
             ))
             break
+
+    print()
 
 
 def results(players):
@@ -236,16 +240,19 @@ def main(num_players, num_decks):
 
     # Show dealers card
     print(u'Dealer showing: {}'.format(players[-1].hands()[0].peek(0)['face']))
+    print()
 
-    # Run player loop
-    for player in players:
-        for hand in player.hands():
+    # If dealer has blackjack, go straighto to scoring
+    if not is_blackjack(players[-1].hands()[0]):
 
-            if player.name() is 'Dealer':
-                dealer_play(player, hand, deck)
-            else:
-                play_hand(player, hand, deck)
+        # Run player loop
+        for player in players:
+            for hand in player.hands():
 
+                if player.name() is 'Dealer':
+                    dealer_play(player, hand, deck)
+                else:
+                    play_hand(player, hand, deck)
 
     # Calculate and output results
     results(players)
