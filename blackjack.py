@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 
 from __future__ import print_function
-from deck import Deck
-from player import Player
+from libs.deck import Deck
+from libs.player import Player
 
 import argparse
 import re
