@@ -237,12 +237,12 @@ def main(num_players, num_decks):
     # Deal the cards
     deal(players, deck)
 
-    # Show dealers card
-    print(u'Dealer showing: {}'.format(players[-1].hands()[0].peek(0)['face']))
-    print()
-
     # Pop dealer from player list
     dealer = players.pop(-1)
+
+    # Show dealers card
+    print(u'Dealer showing: {}'.format(dealer.hands()[0].peek(0)['face']))
+    print()
 
     # If dealer has blackjack, go straighto to scoring
     if not is_blackjack(dealer.hands()[0]):
