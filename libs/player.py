@@ -9,9 +9,7 @@ class Player:
     def __init__(self, name):
 
         self.player_name = str(name)
-
         self.player_hands = list()
-
         self.add_hand()
 
 

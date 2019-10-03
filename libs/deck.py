@@ -44,12 +44,19 @@ class Deck:
                         'id': '{}{}'.format(rank['id'], suit['id']),
                         'face': u'{}{}'.format(rank['id'], suit['symbol']),
                         'name': '{} of {}'.format(rank['name'], suit['name']),
-                        'suit': suit['id'],
-                        'suit_name': suit['name'],
-                        'suit_symbol': suit['symbol'],
+                        'suit': {
+                            'id': suit['id'],
+                            'name': suit['name'],
+                            'symbol': suit['symbol']
+                        },
                         'rank': rank['id'],
                         'rank_name': rank['name']
                     })
+
+
+    def __repr__(self):
+
+        return "Deck(deck=%r{})" % (self.deck)
 
 
     def shuffle(self, itterations=3):
@@ -83,6 +90,14 @@ class Deck:
             cards.append(self.deck.pop(position))
 
         return cards
+
+
+    def peek(self, position):
+        """Returns the card at 'position' without removing it from the deck"""
+
+        # TODO: Verify 'position' is an acceptable value
+
+        return self.deck[position]
 
 
     def fan(self):

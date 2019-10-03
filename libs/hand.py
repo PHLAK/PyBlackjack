@@ -102,18 +102,13 @@ class Hand:
         for card in cards:
 
             if card['rank'] is 'A':
-
                 if hand_score + 11 > 21:
                     hand_score += 1
                 else:
                     hand_score += 11
-
             elif re.match(r'[JQK]', card['rank']):
-
                 hand_score += 10
-
             else:
-
                 hand_score += int(card['rank'])
 
         return hand_score
